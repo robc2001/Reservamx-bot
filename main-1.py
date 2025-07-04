@@ -98,6 +98,7 @@ def home():
 
 @app_flask.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
 def telegram_webhook():
+    print(">>> Webhook recibió algo")
     update = telegram.Update.de_json(request.get_json(force=True), application.bot)
     asyncio.run(application.process_update(update))
     return "OK"
