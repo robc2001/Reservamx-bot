@@ -100,7 +100,11 @@ def home():
 def telegram_webhook():
     print(">>> Webhook recibió algo")
     update = telegram.Update.de_json(request.get_json(force=True), application.bot)
-    asyncio.run(application.process_update(update))
+    async def process():
+        await application.initialize()   # <--- ESTA LÍNEA ES CLAVE
+        await application.process_update(update)
+
+    asyncio.run(process())
     return "OK"
 
 if __name__ == "__main__":
